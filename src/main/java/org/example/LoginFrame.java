@@ -71,21 +71,21 @@ public class LoginFrame {
         submit.setBorder(BorderFactory.createEmptyBorder());
         submit.addActionListener(e -> verify());
         panel.add(submit);
-
-
     }
 
     private void verify() {
         String username = usernameField.getText();
         String pass = new String(passwordField.getPassword());
 
-        String url = "jdbc:mysql://localhost:3306/oom";
-        String user = "root";
-        String password = "Abhil@141";
+        // SQL Server connection details
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=ComplaintDB;user=root;password=Abhil@141;trustServerCertificate=true;";
+        String user = "root"; // SQL Server authentication username
+        String password = "Abhil@141"; // SQL Server authentication password
         String query = "SELECT * FROM users WHERE user_id=? AND password=?;";
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Load SQL Server JDBC driver
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         } catch (ClassNotFoundException e) {
             System.out.println("Driver not found");
         }
@@ -109,8 +109,10 @@ public class LoginFrame {
                 JOptionPane.showMessageDialog(frame, "Invalid Username or Password", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(frame, "Database connection failed", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();  // Print the detailed error to console
+            JOptionPane.showMessageDialog(frame, "Database connection failed: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }
 
     private void setLookAndFeel() {
@@ -120,6 +122,5 @@ public class LoginFrame {
         } catch (Exception e) {
             System.out.println("JTattoo theme not applied");
         }
-    }}
-
-
+    }
+}

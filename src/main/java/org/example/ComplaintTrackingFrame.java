@@ -45,10 +45,12 @@ public class ComplaintTrackingFrame {
     }
 
     private void loadComplaints(DefaultTableModel tableModel) {
-        String url = "jdbc:mysql://localhost:3306/oom";
-        String dbUser = "root";
-        String dbPassword = "Abhil@141";
+        // SQL Server connection details
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=ComplaintDB;user=root;password=Abhil@141;trustServerCertificate=true;";
+        String dbUser = "root"; // SQL Server authentication username
+        String dbPassword = "Abhil@141"; // SQL Server authentication password
 
+        // SQL Server query for fetching complaints
         String query = "SELECT complaint_id, category, description, status, created_at FROM complaints WHERE user_id = ?";
 
         try (Connection connection = DriverManager.getConnection(url, dbUser, dbPassword)) {
@@ -71,3 +73,4 @@ public class ComplaintTrackingFrame {
         }
     }
 }
+
